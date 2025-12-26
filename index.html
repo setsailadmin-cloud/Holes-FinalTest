@@ -23,89 +23,112 @@
         .correct-text { color: #16a34a; font-weight: bold; }
         .incorrect-text { color: #dc2626; font-weight: bold; }
         
-        select:disabled, input:disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+        .print-only { display: none; }
+        .print-score-pill { display: none; }
 
         /* Print Styles */
         @media print {
             .no-print { display: none !important; }
+            .print-only { display: block !important; }
             body { background-color: white !important; padding: 0 !important; }
-            .desert-card { border: 1px solid #ccc !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 20px !important; }
-            .sticky { position: static !important; border: 2px solid black !important; margin-top: 40px !important; }
-            .correct-bg { background-color: transparent !important; border: 2px solid #22c55e !important; }
-            .incorrect-bg { background-color: transparent !important; border: 2px solid #ef4444 !important; }
-            h1, h2 { color: black !important; }
-            select { appearance: none; border: none !important; font-weight: bold; color: black !important; }
+            .desert-card { border: none !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 20px !important; padding: 10px !important; }
+            .sticky { position: static !important; border: none !important; border-top: 2px solid #000 !important; margin-top: 20px !important; }
+            
+            h1 { font-size: 24pt !important; color: black !important; margin-bottom: 5px !important; }
+            h2 { font-size: 18pt !important; border-bottom: 1px solid #000 !important; color: black !important; margin-top: 20px !important; margin-bottom: 10px !important;}
+            
+            .print-score-pill { 
+                display: inline-block !important; 
+                float: right;
+                font-weight: bold;
+                border: 1px solid #000;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 10pt;
+            }
+            .question-text { font-size: 11pt !important; width: 85%; display: inline-block; }
+            .mc-option-print { font-size: 10pt; margin-left: 20px; color: #444; }
+            .mc-selected { font-weight: bold; text-decoration: underline; color: black; }
+            .mc-correct { color: #16a34a !important; font-weight: bold; }
+            
+            #congrats-area { display: block !important; text-align: center; margin-top: 30px; font-size: 14pt; font-weight: bold; border: 2px dashed #000; padding: 15px; page-break-inside: avoid; }
+            #print-header-info { display: block !important; margin-bottom: 20px; border-bottom: 1px solid #000; padding-bottom: 10px; }
+            
+            .teacher-key-box { margin-top: 5px; padding: 10px; border-left: 4px solid #d2691e; background: #fffcf0; font-size: 9pt; }
         }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
     <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-10">
+        <!-- Print Header -->
+        <div id="print-header-info" class="hidden">
+            <h1 class="text-3xl font-bold">Holes Final Achievement Report</h1>
+            <div class="flex justify-between mt-4">
+                <p><b>Student Name:</b> ___________________________</p>
+                <p><b>Review Date:</b> <span id="current-date"></span></p>
+            </div>
+        </div>
+
+        <!-- On-Screen Header -->
+        <div class="text-center mb-10 no-print">
             <h1 class="text-4xl font-bold text-orange-800 mb-2">📖 Holes Final Test Review</h1>
-            <p class="text-orange-600 italic no-print">Live Classroom Review Mode • Immediate Feedback</p>
+            <p class="text-orange-600 italic">Live Classroom Review Mode • Immediate Feedback</p>
         </div>
 
         <div id="test-container" class="space-y-8">
             
-            <!-- Part A: Matching -->
+            <!-- Part A -->
             <section id="section-a" class="desert-card p-6">
                 <h2 class="text-2xl font-bold text-orange-900 border-b-2 border-orange-200 pb-2 mb-4">Part A: Character Matching</h2>
-                <p class="text-sm text-gray-600 mb-6 italic no-print">Teacher: Discuss each quote before selecting an answer.</p>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 bg-orange-50 rounded-lg text-sm border border-orange-200 no-print">
-                    <div><b>a.</b> Stanley Yelnats<br><b>b.</b> Zero (Hector Zeroni)<br><b>c.</b> The Warden<br><b>d.</b> Mr. Sir<br><b>e.</b> Mr. Pendanski</div>
-                    <div><b>f.</b> Sam the Onion Man<br><b>g.</b> Kate Barlow<br><b>h.</b> X-Ray<br><b>i.</b> Magnet<br><b>j.</b> Elya Yelnats</div>
+                    <div><b>a.</b> Stanley | <b>b.</b> Zero | <b>c.</b> Warden | <b>d.</b> Mr. Sir | <b>e.</b> Pendanski</div>
+                    <div><b>f.</b> Sam | <b>g.</b> Kate Barlow | <b>h.</b> X-Ray | <b>i.</b> Magnet | <b>j.</b> Elya</div>
                 </div>
 
-                <div id="part-a-questions" class="space-y-6">
-                    <!-- Questions generated via JS -->
-                </div>
+                <div id="part-a-questions" class="space-y-4"></div>
             </section>
 
-            <!-- Part B: Multiple Choice -->
+            <!-- Part B -->
             <section id="section-b" class="desert-card p-6">
                 <h2 class="text-2xl font-bold text-orange-900 border-b-2 border-orange-200 pb-2 mb-4">Part B: Multiple Choice</h2>
-                <div id="part-b-questions" class="space-y-8">
-                    <!-- Questions generated via JS -->
-                </div>
+                <div id="part-b-questions" class="space-y-6"></div>
             </section>
 
-            <!-- Part C: Short Answer -->
+            <!-- Part C -->
             <section id="section-c" class="desert-card p-6">
                 <h2 class="text-2xl font-bold text-orange-900 border-b-2 border-orange-200 pb-2 mb-4">Part C: Short Answer Discussion</h2>
-                <p class="text-sm text-gray-600 mb-4 italic no-print">Teacher: Ask students for their answers, then reveal the key points for comparison.</p>
-                <div id="part-c-questions" class="space-y-8">
-                    <!-- Questions generated via JS -->
-                </div>
+                <div id="part-c-questions" class="space-y-8"></div>
             </section>
 
-            <!-- Final Score Summary (Auto-updating) -->
+            <!-- Congrats Message (Visible in Print & Result) -->
+            <div id="congrats-area" class="hidden">
+                <p id="congrats-msg" class="text-orange-800"></p>
+            </div>
+
+            <!-- Final Score Footer -->
             <div class="sticky bottom-4 desert-card p-4 flex flex-col md:flex-row justify-between items-center border-2 border-orange-500 shadow-xl z-40 bg-white gap-4">
                 <div class="flex items-center gap-4">
-                    <span class="text-orange-800 font-bold no-print">Class Review Progress:</span>
-                    <span id="answered-count" class="font-mono bg-orange-100 px-2 py-1 rounded no-print">0/30</span>
                     <div class="text-2xl font-black text-orange-700">
-                        Total Score: <span id="live-score">0</span> / 100 
+                        Final Performance: <span id="live-score">0</span> / 100 
                         <span id="percent-display" class="ml-2 text-xl text-orange-500">(0%)</span>
                     </div>
                 </div>
                 
-                <button onclick="window.print()" class="no-print bg-orange-700 hover:bg-orange-800 text-white font-bold py-2 px-6 rounded-lg shadow-md flex items-center gap-2 transition-transform active:scale-95">
+                <button onclick="handlePrint()" class="no-print bg-orange-700 hover:bg-orange-800 text-white font-bold py-2 px-6 rounded-lg shadow-md flex items-center gap-2 transition-transform active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                     </svg>
-                    Print Final Report
+                    Print Detailed Report
                 </button>
             </div>
         </div>
     </div>
 
     <script>
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString();
+
         const partAAnswers = ["e", "j", "f", "i", "g", "c", "h", "a", "d", "b"];
         const partAQuotes = [
             "I’m not a girl; I’m a counselor who believes that even the most 'worthless' person has a talent.",
@@ -121,108 +144,81 @@
         ];
 
         const partBQuestions = [
-            { q: "Stanley was sent to Camp Green Lake because he was accused of stealing:", options: ["A gold tube of lipstick.", "A famous baseball player's sneakers.", "A suitcase full of jewelry.", "Mr. Sir's sunflower seeds."], ans: 1 },
-            { q: "What is the real reason the Warden has the boys digging holes?", options: ["To build their character through hard work.", "To find a water source for the dry lake.", "To find the buried treasure of Kissin’ Kate Barlow.", "To punish them for crimes they committed."], ans: 2 },
-            { q: "What do the initials 'KB' on the gold tube stand for?", options: ["Keep Back.", "Katherine Barlow.", "Knowledge is Best.", "King of Books."], ans: 1 },
-            { q: "Why don't the yellow-spotted lizards bite Stanley and Zero in the hole?", options: ["The lizards were sleeping.", "The boys were standing perfectly still.", "The boys had onion-tainted blood that the lizards hate.", "The Warden had trained the lizards not to bite."], ans: 2 },
-            { q: "What is 'Sploosh'?", options: ["A new type of soda.", "Muddy water from the mountain.", "110-year-old preserved spiced peaches.", "A foot odor cure invented by Stanley’s father."], ans: 2 },
-            { q: "The mountain 'God's Thumb' is significant because:", options: ["It is where Stanley’s great-grandfather survived a desert abandonment.", "It is where the gold is hidden.", "It is the only place with a phone signal.", "It is the home of the Warden."], ans: 0 },
-            { q: "Zero’s real last name, Zeroni, proves that:", options: ["He is Stanley’s long-lost cousin.", "He is the descendant of the woman Stanley’s ancestor was supposed to carry.", "He is the rightful owner of Camp Green Lake.", "He stole the sneakers on purpose to meet Stanley."], ans: 1 },
-            { q: "What happened to the town of Green Lake after Sam was killed?", options: ["It became a famous resort.", "It never rained again for over a hundred years.", "It was flooded by the river.", "Everyone moved to the city."], ans: 1 },
-            { q: "The 'curse' on Stanley’s family is officially broken when:", options: ["Stanley finds the treasure.", "Stanley carries Zero up the mountain and sings to him.", "Stanley’s father gets a new job.", "The Warden is arrested."], ans: 1 },
-            { q: "What is the Warden’s connection to the past?", options: ["She is the ghost of Kate Barlow.", "She is the granddaughter of the Sheriff.", "She is a descendant of Trout Walker.", "She was Katherine Barlow’s best friend."], ans: 2 },
-            { q: "Why does Zero hit Mr. Pendanski with a shovel?", options: ["He wanted to steal the water truck.", "Mr. Pendanski insulted him and said he was 'nothing.'", "It was an accident.", "He wanted to help Stanley escape."], ans: 1 },
-            { q: "How does Stanley’s father finally become successful?", options: ["He wins the lottery.", "He finds the treasure in the desert.", "He invents a product that cures foot odor.", "He sues the camp for Stanley’s false arrest."], ans: 2 },
-            { q: "What was written on the side of the suitcase the boys found?", options: ["'Property of Kate Barlow.'", "'Camp Green Lake.'", "'Stanley Yelnats.'", "'Walker Family.'"], ans: 2 },
-            { q: "At the end of the story, Camp Green Lake is turned into:", options: ["A high-security prison.", "A Girl Scout camp.", "A national park.", "A new school."], ans: 1 },
-            { q: "Which literary term describes the story of Sam and Katherine being told alongside Stanley’s story?", options: ["Foreshadowing.", "Symbolism.", "Digression/Flashback.", "Onomatopoeia."], ans: 2 }
+            { q: "Stanley was sent to Camp Green Lake because he was accused of stealing sneakers.", options: ["A gold lipstick tube", "Clyde Livingston's shoes", "A stash of jewelry", "Sunseeds"], ans: 1 },
+            { q: "The Warden has the boys digging holes to find Kate Barlow’s buried treasure.", options: ["Water sources", "Lost dinosaur bones", "Kate Barlow's treasure", "The Warden's ancestors"], ans: 2 },
+            { q: "The initials 'KB' on the gold tube found by Stanley stand for Katherine Barlow.", options: ["King of Books", "Katherine Barlow", "Keep Back", "Knowledge is Best"], ans: 1 },
+            { q: "Deadly lizards don't bite the boys because of their onion-tainted blood.", options: ["They were sleeping", "The boys were motionless", "The boys ate raw onions", "The lizards were tame"], ans: 2 },
+            { q: "The liquid 'Sploosh' discovered by Zero is 110-year-old preserved peaches.", options: ["Muddy river water", "A chemical spill", "Spiced preserved peaches", "Old grape juice"], ans: 2 },
+            { q: "God's Thumb is where Stanley’s great-grandfather survived a desert abandonment.", options: ["True", "False", "Partially True", "Unknown"], ans: 0 },
+            { q: "Zero’s real last name (Zeroni) proves his family connection to Madame Zeroni.", options: ["He is a Yelnats", "He is a Zeroni descendant", "He is the Warden's son", "He is a Walker"], ans: 1 },
+            { q: "After Sam was killed, it never rained again in Green Lake for over a century.", options: ["True", "False", "It rained once", "It flooded"], ans: 0 },
+            { q: "The curse is broken when Stanley carries Zero up the mountain and sings to him.", options: ["He finds gold", "He carries the Zeroni descendant", "He kills the Warden", "He leaves the camp"], ans: 1 },
+            { q: "The Warden is a descendant of which historical figure?", options: ["Kate Barlow", "Sam the Onion Man", "Trout Walker", "Madame Zeroni"], ans: 2 },
+            { q: "Why did Zero hit Mr. Pendanski with a shovel?", options: ["To steal the truck", "He was called 'nothing'", "It was an accident", "To save Stanley"], ans: 1 },
+            { q: "How does Stanley’s father finally become successful?", options: ["He found the gold", "He invented a foot odor cure", "He won the lottery", "He became a lawyer"], ans: 1 },
+            { q: "What name was written on the suitcase found in the hole?", options: ["Kate Barlow", "Stanley Yelnats", "The Warden", "Mary Lou"], ans: 1 },
+            { q: "At the end, Camp Green Lake is turned into what?", options: ["A prison", "A Girl Scout camp", "A museum", "A housing complex"], ans: 1 },
+            { q: "The historical flashbacks are an example of what literary device?", options: ["Simile", "Metaphor", "Digression/Flashback", "Personification"], ans: 2 }
         ];
 
         const partCQuestions = [
-            { q: "Explain the irony of the 'Sploosh' name in the story.", key: "The name connects Sam's boat (peaches) to Zero's survival and Stanley's father's invention. It is ironic that 110-year-old peaches saved a life and now the new 'Sploosh' cures 'vile' foot odor." },
-            { q: "How does Stanley show that he is a 'dynamic character'?", key: "Stanley starts overweight and unlucky, blaming a curse. He ends strong, confident, and takes responsibility for his own choices and for his friend Zero." },
-            { q: "What role did 'fate' play in Stanley and Zero meeting each other?", key: "Fate linked them via the stolen shoes. Their ancestors' lives were connected by a broken promise, and fate brought them to the same camp to fix it." },
-            { q: "Why was it important that Stanley refused to leave Camp Green Lake without Zero?", key: "It shows his moral growth. He knew the Warden erased Zero's records. Staying saved Zero's life and proved friendship matters more than personal freedom." },
-            { q: "Describe how the motif of Sam’s onions connects the history to Stanley’s survival.", key: "Sam's onions were miracle cures. In the present, they provided food/water on the mountain and made the boys' blood taste bad to the yellow-spotted lizards." }
+            { q: "Explain the irony of the 'Sploosh' name.", key: "The name links Sam's boat (past) to Zero's survival (present) and the foot odor cure (future). It's ironic that old peaches saved a life and now a peach-scented spray saves feet." },
+            { q: "How is Stanley a 'dynamic character'?", key: "Stanley transforms from a shy, unlucky, overweight boy who blames a curse to a strong, confident, and selfless person who takes charge of his own destiny." },
+            { q: "What role did 'fate' play in Stanley and Zero meeting?", key: "Their ancestors' destinies were tied to a broken promise 110 years ago. Fate used the stolen shoes to bring the two descendants together to fix the past." },
+            { q: "Why was it important that Stanley refused to leave without Zero?", key: "It proves he is no longer just a 'camper' but a friend. He realizes the Warden erased Zero's records and stays to ensure Zero isn't left to disappear." },
+            { q: "How do Sam’s onions connect the history to Stanley’s survival?", key: "Sam's onions were miracle cures. In the present, they provided sustenance on the mountain and made the boys' blood unappealing to the deadly lizards." }
         ];
 
-        let state = {
-            a: Array(10).fill(null),
-            b: Array(15).fill(null),
-            c: Array(5).fill(0)
-        };
+        let state = { a: Array(10).fill(0), b: Array(15).fill(null), c: Array(5).fill(0) };
 
         function updateLiveScore() {
-            let score = 0;
-            let answered = 0;
-
-            state.a.forEach((val, i) => {
-                if (val !== null) {
-                    answered++;
-                    if (val === partAAnswers[i]) score += 3;
-                }
-            });
-
-            state.b.forEach((val, i) => {
-                if (val !== null) {
-                    answered++;
-                    if (val === partBQuestions[i].ans) score += 3;
-                }
-            });
-
-            state.c.forEach(val => {
-                if (val > 0) answered++;
-                score += val;
-            });
-
-            document.getElementById('live-score').innerText = score;
-            document.getElementById('percent-display').innerText = `(${score}%)`;
-            document.getElementById('answered-count').innerText = `${answered}/30`;
+            let scoreA = state.a.reduce((a,b)=>a+b, 0);
+            let scoreB = state.b.reduce((acc, val, i) => acc + (val === partBQuestions[i].ans ? 3 : 0), 0);
+            let scoreC = state.c.reduce((a,b)=>a+b, 0);
+            
+            let total = scoreA + scoreB + scoreC;
+            document.getElementById('live-score').innerText = total;
+            document.getElementById('percent-display').innerText = `(${total}%)`;
+            
+            let msg = "Keep digging! Every story has a connection.";
+            if (total >= 90) msg = "🏆 OUTSTANDING! You've broken the curse and discovered the real treasure!";
+            else if (total >= 75) msg = "🌟 GREAT JOB! You've connected the past and present perfectly.";
+            else if (total >= 50) msg = "👍 GOOD WORK! You're finding your way through the desert.";
+            
+            document.getElementById('congrats-msg').innerText = msg;
+            document.getElementById('congrats-area').classList.remove('hidden');
         }
 
         // Init Part A
         const partAContainer = document.getElementById('part-a-questions');
         partAQuotes.forEach((quote, i) => {
             const div = document.createElement('div');
-            div.className = "p-4 border rounded-lg transition-colors bg-gray-50";
-            div.id = `q-a-container-${i}`;
+            div.className = "p-4 border rounded-lg bg-gray-50 flex justify-between items-center q-row";
             div.innerHTML = `
-                <div class="flex items-start space-x-3">
-                    <span class="font-bold text-orange-800 mt-1">${i+1}.</span>
-                    <div class="flex-1">
-                        <p class="mb-3 text-gray-800 font-medium">${quote}</p>
-                        <div class="flex items-center space-x-4">
-                            <select onchange="handleMatchingChange(${i}, this.value)" class="border-2 border-orange-300 rounded p-2 text-sm focus:outline-none bg-white">
-                                <option value="">Select Character...</option>
-                                ${"abcdefghij".split('').map(l => `<option value="${l}">${l}</option>`).join('')}
-                            </select>
-                            <span id="feedback-a-${i}" class="text-sm font-bold"></span>
-                        </div>
+                <div class="flex-1">
+                    <span class="font-bold text-orange-800 mr-2">${i+1}.</span>
+                    <span class="question-text">${quote}</span>
+                    <div class="mt-2 no-print flex items-center gap-2">
+                        <select onchange="handleA(${i}, this.value, this)" class="border-2 border-orange-300 rounded p-1 text-xs bg-white">
+                            <option value="">Select Character...</option>
+                            ${"abcdefghij".split('').map(l => `<option value="${l}">${l}</option>`).join('')}
+                        </select>
+                        <span id="fb-a-${i}" class="text-xs font-bold"></span>
                     </div>
+                    <div class="print-only text-xs mt-1 text-gray-500 italic" id="print-ans-a-${i}">Match: </div>
                 </div>
+                <div id="print-pts-a-${i}" class="print-score-pill">Points: 0 / 3</div>
             `;
             partAContainer.appendChild(div);
         });
 
-        function handleMatchingChange(index, value) {
-            const container = document.getElementById(`q-a-container-${index}`);
-            const feedback = document.getElementById(`feedback-a-${index}`);
-            const correct = partAAnswers[index];
-            
-            state.a[index] = value || null;
-
-            if (!value) {
-                container.className = "p-4 border rounded-lg transition-colors bg-gray-50";
-                feedback.innerText = "";
-            } else if (value === correct) {
-                container.className = "p-4 border rounded-lg transition-colors correct-bg";
-                feedback.innerHTML = "✓ CORRECT";
-                feedback.className = "text-sm font-bold correct-text";
-            } else {
-                container.className = "p-4 border rounded-lg transition-colors incorrect-bg";
-                feedback.innerHTML = `✗ WRONG (Key: ${correct.toUpperCase()})`;
-                feedback.className = "text-sm font-bold incorrect-text";
-            }
+        function handleA(i, val, el) {
+            const isCorrect = val === partAAnswers[i];
+            state.a[i] = isCorrect ? 3 : 0;
+            const container = el.closest('.q-row');
+            container.className = `p-4 border rounded-lg flex justify-between items-center q-row ${isCorrect ? 'correct-bg' : val ? 'incorrect-bg' : 'bg-gray-50'}`;
+            document.getElementById(`print-pts-a-${i}`).innerText = `Points: ${state.a[i]} / 3`;
+            document.getElementById(`print-ans-a-${i}`).innerText = `Matched Character: ${val ? val.toUpperCase() : 'None'} (${isCorrect ? 'Correct' : 'Incorrect'})`;
             updateLiveScore();
         }
 
@@ -230,48 +226,60 @@
         const partBContainer = document.getElementById('part-b-questions');
         partBQuestions.forEach((item, i) => {
             const div = document.createElement('div');
-            div.className = "p-5 border rounded-lg transition-colors bg-gray-50";
-            div.id = `q-b-container-${i}`;
+            div.className = "p-4 border rounded-lg bg-gray-50 flex flex-col q-row";
             div.innerHTML = `
-                <p class="font-bold text-gray-800 mb-4">${i+1}. ${item.q}</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 ml-4">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <span class="font-bold text-orange-800 mr-2">${i+1}.</span>
+                        <span class="question-text font-medium">${item.q}</span>
+                    </div>
+                    <div id="print-pts-b-${i}" class="print-score-pill">Points: 0 / 3</div>
+                </div>
+                
+                <div class="mt-4 space-y-2 no-print">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                        ${item.options.map((opt, optIdx) => `
+                            <button onclick="handleB(${i}, ${optIdx}, this)" 
+                                    class="mc-btn text-left p-2 border rounded bg-white text-xs hover:bg-orange-50 transition-colors">
+                                ${String.fromCharCode(65 + optIdx)}. ${opt}
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="print-only mt-2 space-y-1">
                     ${item.options.map((opt, optIdx) => `
-                        <button onclick="handleMCSelection(${i}, ${optIdx})" 
-                                id="btn-b-${i}-${optIdx}"
-                                class="text-left p-3 border-2 border-gray-200 rounded-lg hover:bg-orange-100 transition-colors text-sm bg-white no-print">
-                            <span class="font-bold mr-2">${String.fromCharCode(97 + optIdx).toUpperCase()}.</span> ${opt}
-                        </button>
+                        <div class="mc-option-print" id="print-opt-b-${i}-${optIdx}">
+                            ${String.fromCharCode(65 + optIdx)}. ${opt}
+                        </div>
                     `).join('')}
                 </div>
-                <div id="feedback-b-${i}" class="mt-4 text-center font-bold"></div>
             `;
             partBContainer.appendChild(div);
         });
 
-        function handleMCSelection(qIdx, optIdx) {
-            const correct = partBQuestions[qIdx].ans;
-            const container = document.getElementById(`q-b-container-${qIdx}`);
-            const feedback = document.getElementById(`feedback-b-${qIdx}`);
+        function handleB(i, optIdx, el) {
+            const correct = partBQuestions[i].ans;
+            state.b[i] = optIdx;
+            const container = el.closest('.q-row');
+            const isCorrect = optIdx === correct;
             
-            for(let j=0; j<4; j++) {
-                const btn = document.getElementById(`btn-b-${qIdx}-${j}`);
-                btn.className = "text-left p-3 border-2 border-gray-200 rounded-lg hover:bg-orange-100 transition-colors text-sm bg-white no-print";
-            }
+            container.className = `p-4 border rounded-lg flex flex-col q-row ${isCorrect ? 'correct-bg' : 'incorrect-bg'}`;
+            
+            const buttons = container.querySelectorAll('.mc-btn');
+            buttons.forEach((btn, idx) => {
+                btn.className = "mc-btn text-left p-2 border rounded text-xs transition-colors " + 
+                    (idx === optIdx ? (isCorrect ? "bg-green-500 text-white font-bold" : "bg-red-500 text-white font-bold") : "bg-white");
+            });
 
-            state.b[qIdx] = optIdx;
-
-            if (optIdx === correct) {
-                container.className = "p-5 border rounded-lg transition-colors correct-bg";
-                document.getElementById(`btn-b-${qIdx}-${optIdx}`).className = "text-left p-3 border-2 border-green-500 rounded-lg bg-green-100 text-sm font-bold no-print";
-                feedback.innerHTML = "✓ CORRECT";
-                feedback.className = "mt-4 text-center font-bold correct-text";
-            } else {
-                container.className = "p-5 border rounded-lg transition-colors incorrect-bg";
-                document.getElementById(`btn-b-${qIdx}-${optIdx}`).className = "text-left p-3 border-2 border-red-500 rounded-lg bg-red-100 text-sm font-bold no-print";
-                document.getElementById(`btn-b-${qIdx}-${correct}`).className = "text-left p-3 border-2 border-green-500 rounded-lg bg-green-50 text-sm italic no-print";
-                feedback.innerHTML = `✗ INCORRECT. The answer is ${String.fromCharCode(97 + correct).toUpperCase()}`;
-                feedback.className = "mt-4 text-center font-bold incorrect-text";
+            for(let j=0; j<4; j++){
+                const pOpt = document.getElementById(`print-opt-b-${i}-${j}`);
+                pOpt.className = "mc-option-print";
+                if(j === optIdx) pOpt.classList.add('mc-selected');
+                if(j === correct) pOpt.classList.add('mc-correct');
             }
+            
+            document.getElementById(`print-pts-b-${i}`).innerText = `Points: ${isCorrect ? 3 : 0} / 3`;
             updateLiveScore();
         }
 
@@ -279,42 +287,48 @@
         const partCContainer = document.getElementById('part-c-questions');
         partCQuestions.forEach((item, i) => {
             const div = document.createElement('div');
-            div.className = "p-5 bg-white border border-gray-200 rounded-xl shadow-sm";
+            div.className = "p-4 border rounded-lg bg-gray-50 q-row";
             div.innerHTML = `
-                <p class="font-bold text-gray-800 mb-4 text-lg">${i+1}. ${item.q}</p>
-                <div class="flex space-x-4 mb-4 no-print">
-                    <button onclick="this.nextElementSibling.classList.toggle('hidden')" 
-                            class="bg-orange-100 text-orange-800 px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-200 transition-colors">
-                        REVEAL ANSWER KEY
-                    </button>
-                    <div class="hidden flex-1 p-4 bg-orange-50 border border-orange-200 rounded-lg text-sm text-orange-900 leading-relaxed">
-                        <p class="font-bold mb-1">Teacher's Guide / Key Points:</p>
-                        ${item.key}
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <p class="font-bold text-gray-800 mb-2">${i+1}. ${item.q}</p>
+                    </div>
+                    <div id="print-pts-c-${i}" class="print-score-pill">Points: 0 / 5</div>
+                </div>
+                
+                <div class="no-print space-y-2">
+                    <div class="flex gap-2 items-center mt-2">
+                        <span class="text-xs font-bold text-gray-500 uppercase">Grade:</span>
+                        ${[0, 2, 4, 5].map(p => `<button onclick="handleC(${i}, ${p}, this)" class="px-4 py-1 border rounded bg-white text-xs font-bold hover:border-orange-500">${p} Pts</button>`).join('')}
+                        <button onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')" class="ml-auto text-xs text-orange-600 font-bold underline">Show Key</button>
+                    </div>
+                    <div class="hidden p-3 bg-white border border-dashed border-orange-300 rounded text-xs italic text-gray-600">
+                        <strong>Teacher's Key:</strong> ${item.key}
                     </div>
                 </div>
-                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 no-print">
-                    <p class="text-xs font-bold text-gray-500 uppercase mb-2">Class Performance / Points Awarded:</p>
-                    <div class="flex flex-wrap gap-2">
-                        ${[0, 2, 4, 5].map(pts => `
-                            <button onclick="handleScoreC(${i}, ${pts}, this)" 
-                                    class="score-btn-c px-6 py-2 border-2 border-gray-300 rounded-full font-bold transition-all text-sm hover:border-orange-400 bg-white">
-                                ${pts} Pts
-                            </button>
-                        `).join('')}
-                    </div>
+
+                <div class="print-only">
+                    <div class="teacher-key-box"><strong>Teacher's Key:</strong> ${item.key}</div>
                 </div>
             `;
             partCContainer.appendChild(div);
         });
 
-        function handleScoreC(qIdx, points, btn) {
-            state.c[qIdx] = points;
-            const parent = btn.parentElement;
-            parent.querySelectorAll('.score-btn-c').forEach(b => {
-                b.className = "score-btn-c px-6 py-2 border-2 border-gray-300 rounded-full font-bold transition-all text-sm hover:border-orange-400 bg-white";
-            });
-            btn.className = "score-btn-c px-6 py-2 border-2 border-orange-600 bg-orange-600 text-white rounded-full font-bold transition-all text-sm scale-110 shadow-md";
+        function handleC(i, p, el) {
+            state.c[i] = p;
+            const container = el.closest('.q-row');
+            container.className = `p-4 border rounded-lg q-row ${p === 5 ? 'correct-bg' : p > 0 ? 'bg-orange-50' : 'bg-gray-50'}`;
+            
+            const btns = el.parentElement.querySelectorAll('button');
+            btns.forEach(b => b.classList.remove('bg-orange-600', 'text-white'));
+            if(p !== null) el.classList.add('bg-orange-600', 'text-white');
+            
+            document.getElementById(`print-pts-c-${i}`).innerText = `Points: ${p} / 5`;
             updateLiveScore();
+        }
+
+        function handlePrint() {
+            window.print();
         }
     </script>
 </body>
