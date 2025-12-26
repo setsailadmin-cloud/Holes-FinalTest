@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holes - Final Test Classroom Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fdf5e6;
+        }
+        .desert-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #d2691e;
+            transition: all 0.3s ease;
+        }
+        .correct-bg { background-color: #f0fdf4; border-color: #22c55e !important; }
+        .incorrect-bg { background-color: #fef2f2; border-color: #ef4444 !important; }
+        .correct-text { color: #16a34a; font-weight: bold; }
+        .incorrect-text { color: #dc2626; font-weight: bold; }
+        
+        select:disabled, input:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        /* Print Styles */
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: white !important; padding: 0 !important; }
+            .desert-card { border: 1px solid #ccc !important; box-shadow: none !important; page-break-inside: avoid; margin-bottom: 20px !important; }
+            .sticky { position: static !important; border: 2px solid black !important; margin-top: 40px !important; }
+            .correct-bg { background-color: transparent !important; border: 2px solid #22c55e !important; }
+            .incorrect-bg { background-color: transparent !important; border: 2px solid #ef4444 !important; }
+            h1, h2 { color: black !important; }
+            select { appearance: none; border: none !important; font-weight: bold; color: black !important; }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-bold text-orange-800 mb-2">📖 Holes Final Test Review</h1>
+            <p class="text-orange-600 italic no-print">Live Classroom Review Mode • Immediate Feedback</p>
+        </div>
+
+        <div id="test-container" class="space-y-8">
+            
+            <!-- Part A: Matching -->
+            <section id="section-a" class="desert-card p-6">
+                <h2 class="text-2xl font-bold text-orange-900 border-b-2 border-orange-200 pb-2 mb-4">Part A: Character Matching</h2>
+                <p class="text-sm text-gray-600 mb-6 italic no-print">Teacher: Discuss each quote before selecting an answer.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 bg-orange-50 rounded-lg text-sm border border-orange-200 no-print">
+                    <div><b>a.</b> Stanley Yelnats<br><b>b.</b> Zero (Hector Zeroni)<br><b>c.</b> The Warden<br><b>d.</b> Mr. Sir<br><b>e.</b> Mr. Pendanski</div>
+                    <div><b>f.</b> Sam the Onion Man<br><b>g.</b> Kate Barlow<br><b>h.</b> X-Ray<br><b>i.</b> Magnet<br><b>j.</b> Elya Yelnats</div>
+                </div>
+
+                <div id="part-a-questions" class="space-y-6">
+                    <!-- Questions generated via JS -->
+                </div>
+            </section>
+
+            <!-- Part B: Multiple Choice -->
+            <section id="section-b" class="desert-card p-6">
+                <h2 class="text-2xl font-bold text-orange-900 border-b-2 border-orange-200 pb-2 mb-4">Part B: Multiple Choice</h2>
+                <div id="part-b-questions" class="space-y-8">
+                    <!-- Questions generated via JS -->
+                </div>
+            </section>
+
+            <!-- Part C: Short Answer -->
+            <section id="section-c" class="desert-card p-6">
+                <h2 class="text-2xl font-bold text-orange-900 border-b-2 border-orange-200 pb-2 mb-4">Part C: Short Answer Discussion</h2>
+                <p class="text-sm text-gray-600 mb-4 italic no-print">Teacher: Ask students for their answers, then reveal the key points for comparison.</p>
+                <div id="part-c-questions" class="space-y-8">
+                    <!-- Questions generated via JS -->
+                </div>
+            </section>
+
+            <!-- Final Score Summary (Auto-updating) -->
+            <div class="sticky bottom-4 desert-card p-4 flex flex-col md:flex-row justify-between items-center border-2 border-orange-500 shadow-xl z-40 bg-white gap-4">
+                <div class="flex items-center gap-4">
+                    <span class="text-orange-800 font-bold no-print">Class Review Progress:</span>
+                    <span id="answered-count" class="font-mono bg-orange-100 px-2 py-1 rounded no-print">0/30</span>
+                    <div class="text-2xl font-black text-orange-700">
+                        Total Score: <span id="live-score">0</span> / 100 
+                        <span id="percent-display" class="ml-2 text-xl text-orange-500">(0%)</span>
+                    </div>
+                </div>
+                
+                <button onclick="window.print()" class="no-print bg-orange-700 hover:bg-orange-800 text-white font-bold py-2 px-6 rounded-lg shadow-md flex items-center gap-2 transition-transform active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    Print Final Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const partAAnswers = ["e", "j", "f", "i", "g", "c", "h", "a", "d", "b"];
+        const partAQuotes = [
+            "I’m not a girl; I’m a counselor who believes that even the most 'worthless' person has a talent.",
+            "I forgot to carry a certain lady up a mountain, and it cost my family their luck for over a century.",
+            "I can fix that.",
+            "My fingers are like little magnets; I can't help what sticks to them.",
+            "One day I was a schoolteacher; the next I was an outlaw with a signature kiss and a buried treasure.",
+            "I've spent my whole life digging for my family's lost inheritance, and I won't let some lawyers stop me now.",
+            "If you find something interesting, you give it to me first, because I’ve been here the longest and I'm the leader.",
+            "I carried my best friend up a mountain when he was too weak to walk, and I finally broke the family curse.",
+            "This isn’t a Girl Scout camp. You dig to build character, but mostly you dig because I told you to.",
+            "I’m not actually 'Zero'; I’m a math genius who survived on 110-year-old 'Sploosh' in the desert."
+        ];
+
+        const partBQuestions = [
+            { q: "Stanley was sent to Camp Green Lake because he was accused of stealing:", options: ["A gold tube of lipstick.", "A famous baseball player's sneakers.", "A suitcase full of jewelry.", "Mr. Sir's sunflower seeds."], ans: 1 },
+            { q: "What is the real reason the Warden has the boys digging holes?", options: ["To build their character through hard work.", "To find a water source for the dry lake.", "To find the buried treasure of Kissin’ Kate Barlow.", "To punish them for crimes they committed."], ans: 2 },
+            { q: "What do the initials 'KB' on the gold tube stand for?", options: ["Keep Back.", "Katherine Barlow.", "Knowledge is Best.", "King of Books."], ans: 1 },
+            { q: "Why don't the yellow-spotted lizards bite Stanley and Zero in the hole?", options: ["The lizards were sleeping.", "The boys were standing perfectly still.", "The boys had onion-tainted blood that the lizards hate.", "The Warden had trained the lizards not to bite."], ans: 2 },
+            { q: "What is 'Sploosh'?", options: ["A new type of soda.", "Muddy water from the mountain.", "110-year-old preserved spiced peaches.", "A foot odor cure invented by Stanley’s father."], ans: 2 },
+            { q: "The mountain 'God's Thumb' is significant because:", options: ["It is where Stanley’s great-grandfather survived a desert abandonment.", "It is where the gold is hidden.", "It is the only place with a phone signal.", "It is the home of the Warden."], ans: 0 },
+            { q: "Zero’s real last name, Zeroni, proves that:", options: ["He is Stanley’s long-lost cousin.", "He is the descendant of the woman Stanley’s ancestor was supposed to carry.", "He is the rightful owner of Camp Green Lake.", "He stole the sneakers on purpose to meet Stanley."], ans: 1 },
+            { q: "What happened to the town of Green Lake after Sam was killed?", options: ["It became a famous resort.", "It never rained again for over a hundred years.", "It was flooded by the river.", "Everyone moved to the city."], ans: 1 },
+            { q: "The 'curse' on Stanley’s family is officially broken when:", options: ["Stanley finds the treasure.", "Stanley carries Zero up the mountain and sings to him.", "Stanley’s father gets a new job.", "The Warden is arrested."], ans: 1 },
+            { q: "What is the Warden’s connection to the past?", options: ["She is the ghost of Kate Barlow.", "She is the granddaughter of the Sheriff.", "She is a descendant of Trout Walker.", "She was Katherine Barlow’s best friend."], ans: 2 },
+            { q: "Why does Zero hit Mr. Pendanski with a shovel?", options: ["He wanted to steal the water truck.", "Mr. Pendanski insulted him and said he was 'nothing.'", "It was an accident.", "He wanted to help Stanley escape."], ans: 1 },
+            { q: "How does Stanley’s father finally become successful?", options: ["He wins the lottery.", "He finds the treasure in the desert.", "He invents a product that cures foot odor.", "He sues the camp for Stanley’s false arrest."], ans: 2 },
+            { q: "What was written on the side of the suitcase the boys found?", options: ["'Property of Kate Barlow.'", "'Camp Green Lake.'", "'Stanley Yelnats.'", "'Walker Family.'"], ans: 2 },
+            { q: "At the end of the story, Camp Green Lake is turned into:", options: ["A high-security prison.", "A Girl Scout camp.", "A national park.", "A new school."], ans: 1 },
+            { q: "Which literary term describes the story of Sam and Katherine being told alongside Stanley’s story?", options: ["Foreshadowing.", "Symbolism.", "Digression/Flashback.", "Onomatopoeia."], ans: 2 }
+        ];
+
+        const partCQuestions = [
+            { q: "Explain the irony of the 'Sploosh' name in the story.", key: "The name connects Sam's boat (peaches) to Zero's survival and Stanley's father's invention. It is ironic that 110-year-old peaches saved a life and now the new 'Sploosh' cures 'vile' foot odor." },
+            { q: "How does Stanley show that he is a 'dynamic character'?", key: "Stanley starts overweight and unlucky, blaming a curse. He ends strong, confident, and takes responsibility for his own choices and for his friend Zero." },
+            { q: "What role did 'fate' play in Stanley and Zero meeting each other?", key: "Fate linked them via the stolen shoes. Their ancestors' lives were connected by a broken promise, and fate brought them to the same camp to fix it." },
+            { q: "Why was it important that Stanley refused to leave Camp Green Lake without Zero?", key: "It shows his moral growth. He knew the Warden erased Zero's records. Staying saved Zero's life and proved friendship matters more than personal freedom." },
+            { q: "Describe how the motif of Sam’s onions connects the history to Stanley’s survival.", key: "Sam's onions were miracle cures. In the present, they provided food/water on the mountain and made the boys' blood taste bad to the yellow-spotted lizards." }
+        ];
+
+        let state = {
+            a: Array(10).fill(null),
+            b: Array(15).fill(null),
+            c: Array(5).fill(0)
+        };
+
+        function updateLiveScore() {
+            let score = 0;
+            let answered = 0;
+
+            state.a.forEach((val, i) => {
+                if (val !== null) {
+                    answered++;
+                    if (val === partAAnswers[i]) score += 3;
+                }
+            });
+
+            state.b.forEach((val, i) => {
+                if (val !== null) {
+                    answered++;
+                    if (val === partBQuestions[i].ans) score += 3;
+                }
+            });
+
+            state.c.forEach(val => {
+                if (val > 0) answered++;
+                score += val;
+            });
+
+            document.getElementById('live-score').innerText = score;
+            document.getElementById('percent-display').innerText = `(${score}%)`;
+            document.getElementById('answered-count').innerText = `${answered}/30`;
+        }
+
+        // Init Part A
+        const partAContainer = document.getElementById('part-a-questions');
+        partAQuotes.forEach((quote, i) => {
+            const div = document.createElement('div');
+            div.className = "p-4 border rounded-lg transition-colors bg-gray-50";
+            div.id = `q-a-container-${i}`;
+            div.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <span class="font-bold text-orange-800 mt-1">${i+1}.</span>
+                    <div class="flex-1">
+                        <p class="mb-3 text-gray-800 font-medium">${quote}</p>
+                        <div class="flex items-center space-x-4">
+                            <select onchange="handleMatchingChange(${i}, this.value)" class="border-2 border-orange-300 rounded p-2 text-sm focus:outline-none bg-white">
+                                <option value="">Select Character...</option>
+                                ${"abcdefghij".split('').map(l => `<option value="${l}">${l}</option>`).join('')}
+                            </select>
+                            <span id="feedback-a-${i}" class="text-sm font-bold"></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            partAContainer.appendChild(div);
+        });
+
+        function handleMatchingChange(index, value) {
+            const container = document.getElementById(`q-a-container-${index}`);
+            const feedback = document.getElementById(`feedback-a-${index}`);
+            const correct = partAAnswers[index];
+            
+            state.a[index] = value || null;
+
+            if (!value) {
+                container.className = "p-4 border rounded-lg transition-colors bg-gray-50";
+                feedback.innerText = "";
+            } else if (value === correct) {
+                container.className = "p-4 border rounded-lg transition-colors correct-bg";
+                feedback.innerHTML = "✓ CORRECT";
+                feedback.className = "text-sm font-bold correct-text";
+            } else {
+                container.className = "p-4 border rounded-lg transition-colors incorrect-bg";
+                feedback.innerHTML = `✗ WRONG (Key: ${correct.toUpperCase()})`;
+                feedback.className = "text-sm font-bold incorrect-text";
+            }
+            updateLiveScore();
+        }
+
+        // Init Part B
+        const partBContainer = document.getElementById('part-b-questions');
+        partBQuestions.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = "p-5 border rounded-lg transition-colors bg-gray-50";
+            div.id = `q-b-container-${i}`;
+            div.innerHTML = `
+                <p class="font-bold text-gray-800 mb-4">${i+1}. ${item.q}</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 ml-4">
+                    ${item.options.map((opt, optIdx) => `
+                        <button onclick="handleMCSelection(${i}, ${optIdx})" 
+                                id="btn-b-${i}-${optIdx}"
+                                class="text-left p-3 border-2 border-gray-200 rounded-lg hover:bg-orange-100 transition-colors text-sm bg-white no-print">
+                            <span class="font-bold mr-2">${String.fromCharCode(97 + optIdx).toUpperCase()}.</span> ${opt}
+                        </button>
+                    `).join('')}
+                </div>
+                <div id="feedback-b-${i}" class="mt-4 text-center font-bold"></div>
+            `;
+            partBContainer.appendChild(div);
+        });
+
+        function handleMCSelection(qIdx, optIdx) {
+            const correct = partBQuestions[qIdx].ans;
+            const container = document.getElementById(`q-b-container-${qIdx}`);
+            const feedback = document.getElementById(`feedback-b-${qIdx}`);
+            
+            for(let j=0; j<4; j++) {
+                const btn = document.getElementById(`btn-b-${qIdx}-${j}`);
+                btn.className = "text-left p-3 border-2 border-gray-200 rounded-lg hover:bg-orange-100 transition-colors text-sm bg-white no-print";
+            }
+
+            state.b[qIdx] = optIdx;
+
+            if (optIdx === correct) {
+                container.className = "p-5 border rounded-lg transition-colors correct-bg";
+                document.getElementById(`btn-b-${qIdx}-${optIdx}`).className = "text-left p-3 border-2 border-green-500 rounded-lg bg-green-100 text-sm font-bold no-print";
+                feedback.innerHTML = "✓ CORRECT";
+                feedback.className = "mt-4 text-center font-bold correct-text";
+            } else {
+                container.className = "p-5 border rounded-lg transition-colors incorrect-bg";
+                document.getElementById(`btn-b-${qIdx}-${optIdx}`).className = "text-left p-3 border-2 border-red-500 rounded-lg bg-red-100 text-sm font-bold no-print";
+                document.getElementById(`btn-b-${qIdx}-${correct}`).className = "text-left p-3 border-2 border-green-500 rounded-lg bg-green-50 text-sm italic no-print";
+                feedback.innerHTML = `✗ INCORRECT. The answer is ${String.fromCharCode(97 + correct).toUpperCase()}`;
+                feedback.className = "mt-4 text-center font-bold incorrect-text";
+            }
+            updateLiveScore();
+        }
+
+        // Init Part C
+        const partCContainer = document.getElementById('part-c-questions');
+        partCQuestions.forEach((item, i) => {
+            const div = document.createElement('div');
+            div.className = "p-5 bg-white border border-gray-200 rounded-xl shadow-sm";
+            div.innerHTML = `
+                <p class="font-bold text-gray-800 mb-4 text-lg">${i+1}. ${item.q}</p>
+                <div class="flex space-x-4 mb-4 no-print">
+                    <button onclick="this.nextElementSibling.classList.toggle('hidden')" 
+                            class="bg-orange-100 text-orange-800 px-4 py-2 rounded-lg font-bold text-sm hover:bg-orange-200 transition-colors">
+                        REVEAL ANSWER KEY
+                    </button>
+                    <div class="hidden flex-1 p-4 bg-orange-50 border border-orange-200 rounded-lg text-sm text-orange-900 leading-relaxed">
+                        <p class="font-bold mb-1">Teacher's Guide / Key Points:</p>
+                        ${item.key}
+                    </div>
+                </div>
+                <div class="p-4 bg-gray-50 rounded-lg border border-gray-100 no-print">
+                    <p class="text-xs font-bold text-gray-500 uppercase mb-2">Class Performance / Points Awarded:</p>
+                    <div class="flex flex-wrap gap-2">
+                        ${[0, 2, 4, 5].map(pts => `
+                            <button onclick="handleScoreC(${i}, ${pts}, this)" 
+                                    class="score-btn-c px-6 py-2 border-2 border-gray-300 rounded-full font-bold transition-all text-sm hover:border-orange-400 bg-white">
+                                ${pts} Pts
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            partCContainer.appendChild(div);
+        });
+
+        function handleScoreC(qIdx, points, btn) {
+            state.c[qIdx] = points;
+            const parent = btn.parentElement;
+            parent.querySelectorAll('.score-btn-c').forEach(b => {
+                b.className = "score-btn-c px-6 py-2 border-2 border-gray-300 rounded-full font-bold transition-all text-sm hover:border-orange-400 bg-white";
+            });
+            btn.className = "score-btn-c px-6 py-2 border-2 border-orange-600 bg-orange-600 text-white rounded-full font-bold transition-all text-sm scale-110 shadow-md";
+            updateLiveScore();
+        }
+    </script>
+</body>
+</html>
