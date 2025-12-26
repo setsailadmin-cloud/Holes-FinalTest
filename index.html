@@ -65,7 +65,7 @@
         <div id="print-header-info" class="hidden">
             <h1 class="text-3xl font-bold">Holes Final Achievement Report</h1>
             <div class="flex justify-between mt-4">
-                <p><b>Student Name:</b> ___________________________</p>
+                <p><b>Student Name:</b> <span id="print-student-name" class="border-b border-black min-w-[200px] inline-block">___________________________</span></p>
                 <p><b>Review Date:</b> <span id="current-date"></span></p>
             </div>
         </div>
@@ -73,7 +73,12 @@
         <!-- On-Screen Header -->
         <div class="text-center mb-10 no-print">
             <h1 class="text-4xl font-bold text-orange-800 mb-2">📖 Holes Final Test Review</h1>
-            <p class="text-orange-600 italic">Live Classroom Review Mode • Immediate Feedback</p>
+            <p class="text-orange-600 italic mb-6">Live Classroom Review Mode • Immediate Feedback</p>
+            
+            <div class="max-w-md mx-auto bg-white p-4 rounded-lg border-2 border-orange-200 shadow-sm">
+                <label for="student-name-input" class="block text-sm font-bold text-orange-800 mb-1">Enter Student Name:</label>
+                <input type="text" id="student-name-input" oninput="syncName(this.value)" placeholder="Type name here..." class="w-full border-b-2 border-orange-300 focus:border-orange-500 outline-none p-2 text-center text-lg font-semibold">
+            </div>
         </div>
 
         <div id="test-container" class="space-y-8">
@@ -128,6 +133,10 @@
 
     <script>
         document.getElementById('current-date').innerText = new Date().toLocaleDateString();
+
+        function syncName(val) {
+            document.getElementById('print-student-name').innerText = val || "___________________________";
+        }
 
         const partAAnswers = ["e", "j", "f", "i", "g", "c", "h", "a", "d", "b"];
         const partAQuotes = [
